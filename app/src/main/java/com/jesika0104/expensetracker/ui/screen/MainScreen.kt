@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -25,6 +26,9 @@ import androidx.compose.ui.unit.dp
 import com.jesika0104.expensetracker.R
 import com.jesika0104.expensetracker.model.Expense
 import com.jesika0104.expensetracker.ui.theme.ExpenseTrackerTheme
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -75,6 +79,14 @@ fun ScreenContent(modifier: Modifier = Modifier) {
         )
 
         Spacer(modifier = Modifier.height(8.dp))
+
+        Button(
+            onClick = {
+                val amountValue = amount.toDoubleOrNull()
+                val currentDate = SimpleDateFormat("dd MMM yyyy", Locale.getDefault()).format(Date())
+
+            }
+        ) { }
     }
 }
 
