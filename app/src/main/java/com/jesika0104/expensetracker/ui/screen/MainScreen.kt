@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -92,8 +94,19 @@ fun ScreenContent(modifier: Modifier = Modifier) {
                     amount = ""
                 }
             },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Tambah")
+        }
 
-        ) { }
+        Spacer(modifier = Modifier.height(16.dp))
+
+        LazyColumn {
+            items(expenses.size) { index ->
+                val expense = expenses[index]
+                Text("-${expense.title}: Rp ${expense.amount} (${expense.date})")
+            }
+        }
     }
 }
 
