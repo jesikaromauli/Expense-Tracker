@@ -85,7 +85,14 @@ fun ScreenContent(modifier: Modifier = Modifier) {
                 val amountValue = amount.toDoubleOrNull()
                 val currentDate = SimpleDateFormat("dd MMM yyyy", Locale.getDefault()).format(Date())
 
-            }
+                if (title.isNotBlank() && amountValue != null) {
+                    expenses.add(Expense(title, amountValue, currentDate))
+
+                    title = ""
+                    amount = ""
+                }
+            },
+
         ) { }
     }
 }
