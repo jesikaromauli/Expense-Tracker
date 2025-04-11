@@ -3,9 +3,7 @@
     <string name="copyright">Expense Tracker is a simple and intuitive Android application designed
         to help users manage and monitor their daily spending. With this app, users can easily input
         expenses by entering the name, amount, and automatically adding the current date.</string>
-    <string name="masukan">Tidak boleh kosong</string>
     <string name="back">Back</string>
     <string name="share">Back</string>
     <string name="about_app">About App</string>
-
 </resources>
