@@ -69,7 +69,7 @@ fun ScreenContent(modifier: Modifier = Modifier) {
         OutlinedTextField(
             value = title,
             onValueChange = { title = it },
-            label = { Text(text = "Nama Pengeluaran") },
+            label = { Text(text = "Name of expenditure") },
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -79,7 +79,7 @@ fun ScreenContent(modifier: Modifier = Modifier) {
         OutlinedTextField(
             value = amount,
             onValueChange = { amount = it },
-            label = { Text("Jumlah Harga") },
+            label = { Text("Total price") },
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = androidx.compose.ui.text.input.KeyboardType.Number),
             modifier = Modifier.fillMaxWidth()
         )
@@ -100,7 +100,7 @@ fun ScreenContent(modifier: Modifier = Modifier) {
             },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Tambah")
+            Text("Add")
         }
 
         Spacer(modifier = Modifier.height(16.dp))
