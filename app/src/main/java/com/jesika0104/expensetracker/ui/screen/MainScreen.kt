@@ -88,9 +88,10 @@ fun ScreenContent(modifier: Modifier = Modifier) {
             value = title,
             onValueChange = { title = it },
             label = { Text(text = "Name of expenditure") },
+            singleLine = true,
+            maxLines = 1,
             modifier = Modifier.fillMaxWidth()
         )
-
 
         Spacer(modifier = Modifier.height(8.dp))
 
@@ -99,6 +100,8 @@ fun ScreenContent(modifier: Modifier = Modifier) {
             onValueChange = { amount = it },
             label = { Text("Total price") },
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = androidx.compose.ui.text.input.KeyboardType.Number),
+            singleLine = true,
+            maxLines = 1,
             modifier = Modifier.fillMaxWidth()
         )
 
