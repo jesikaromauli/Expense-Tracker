@@ -109,7 +109,7 @@ fun ScreenContent(modifier: Modifier = Modifier) {
             items(expenses.size) { index ->
                 val expense = expenses[index]
                 val formattedAmount = NumberFormat.getNumberInstance(Locale("in", "ID")).format(expense.amount)
-                Text("-${expense.title}: Rp $formattedAmount (${expense.date})")
+                Text("${index + 1}. ${expense.title}: Rp $formattedAmount (${expense.date})")
             }
         }
     }
