@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -19,8 +18,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -28,9 +29,11 @@ import androidx.compose.ui.unit.dp
 import com.jesika0104.expensetracker.R
 import com.jesika0104.expensetracker.model.Expense
 import com.jesika0104.expensetracker.ui.theme.ExpenseTrackerTheme
+import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -66,9 +69,10 @@ fun ScreenContent(modifier: Modifier = Modifier) {
         OutlinedTextField(
             value = title,
             onValueChange = { title = it },
-            label = { Text("Nama Pengeluaan") },
+            label = { Text(text = "Nama Pengeluaran") },
             modifier = Modifier.fillMaxWidth()
         )
+
 
         Spacer(modifier = Modifier.height(8.dp))
 
@@ -104,7 +108,8 @@ fun ScreenContent(modifier: Modifier = Modifier) {
         LazyColumn {
             items(expenses.size) { index ->
                 val expense = expenses[index]
-                Text("-${expense.title}: Rp ${expense.amount} (${expense.date})")
+                val formattedAmount = NumberFormat.getNumberInstance(Locale("in", "ID")).format(expense.amount)
+                Text("-${expense.title}: Rp $formattedAmount (${expense.date})")
             }
         }
     }
