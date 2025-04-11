@@ -113,7 +113,7 @@ fun ScreenContent(
                 isError = titleError,
                 supportingText = {
                     if (titleError) Text(
-                        "Title cannot be empty",
+                        stringResource(R.string.title_required),
                         color = MaterialTheme.colorScheme.error
                     )
                 },
@@ -134,7 +134,7 @@ fun ScreenContent(
                 maxLines = 1,
                 isError = amountError,
                 supportingText = {
-                    if (amountError) Text("Amount must be a valid number", color = MaterialTheme.colorScheme.error)
+                    if (amountError) Text(stringResource(R.string.amount_required), color = MaterialTheme.colorScheme.error)
                 },
                 modifier = Modifier.fillMaxWidth()
             )
