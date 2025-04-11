@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Expense Tracker</string>
+    <string name="copyright">Expense Tracker adalah aplikasi Android yang sederhana
+        dan intuitif yang dirancang untuk membantu pengguna mengelola dan memantau
+        pengeluaran harian mereka. Dengan aplikasi ini, pengguna dapat dengan mudah
+        memasukkan pengeluaran dengan mengisi keterangan, jumlah, dan secara otomatis
+        menambahkan tanggal saat ini.</string>
+    <string name="back">Kembali</string>
+    <string name="share">Bagikan</string>
+    <string name="description">Description</string>
+    <string name="about_app">Tentang Aplikasi</string>
+    <string name="total_price">Total harga</string>
+    <string name="title_required">Judul tidak boleh kosong</string>
+    <string name="amount_required">Jumlah harus berupa angka yang valid</string>
+
+</resources>

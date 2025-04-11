@@ -1,9 +1,15 @@
 <resources>
     <string name="app_name">Expense Tracker</string>
-    <string name="copyright">Expense Tracker is a simple and intuitive Android application designed
-        to help users manage and monitor their daily spending. With this app, users can easily input
-        expenses by entering the name, amount, and automatically adding the current date.</string>
+    <string name="copyright">Expense Tracker is a simple Android app and intuitive designed
+        to help users manage and monitor their daily expenses. With this app, users can easily
+        enter expenses by filling in the description, amount, and automatically add the current
+        date.</string>
     <string name="back">Back</string>
-    <string name="share">Back</string>
+    <string name="share">Share</string>
     <string name="about_app">About App</string>
+    <string name="description">Description</string>
+    <string name="total_price">Total price</string>
+    <string name="title_required">Title cannot be empty</string>
+    <string name="amount_required">Amount must be a valid number</string>
+
 </resources>

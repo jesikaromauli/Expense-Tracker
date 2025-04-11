@@ -107,12 +107,15 @@ fun ScreenContent(
                     title = it
                     titleError = false
                 },
-                label = { Text(text = "Description") },
+                label = {Text(stringResource(id = R.string.description)) },
                 singleLine = true,
                 maxLines = 1,
                 isError = titleError,
                 supportingText = {
-                    if (titleError) Text("Title cannot be empty", color = MaterialTheme.colorScheme.error)
+                    if (titleError) Text(
+                        "Title cannot be empty",
+                        color = MaterialTheme.colorScheme.error
+                    )
                 },
                 modifier = Modifier.fillMaxWidth()
             )
