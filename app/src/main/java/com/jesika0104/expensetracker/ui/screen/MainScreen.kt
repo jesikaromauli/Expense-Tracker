@@ -1,32 +1,19 @@
 package com.jesika0104.expensetracker.ui.screen
 
+import android.content.Context
+import android.content.Intent
 import android.content.res.Configuration
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.outlined.Info
-import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -38,9 +25,7 @@ import com.jesika0104.expensetracker.navigation.Screen
 import com.jesika0104.expensetracker.ui.theme.ExpenseTrackerTheme
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
-
+import java.util.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -75,63 +60,112 @@ fun MainScreen(navController: NavHostController) {
 
 @Composable
 fun ScreenContent(modifier: Modifier = Modifier) {
+    fun shareData(context: Context, message: String) {
+        val shareIntent = Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(Intent.EXTRA_TEXT, message)
+        }
+        context.startActivity(Intent.createChooser(shareIntent, "Share via"))
+    }
+
     var title by remember { mutableStateOf("") }
     var amount by remember { mutableStateOf("") }
-    val expenses = remember { mutableListOf<Expense>() }
+    val expenses = remember { mutableStateListOf<Expense>() }
 
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-        OutlinedTextField(
-            value = title,
-            onValueChange = { title = it },
-            label = { Text(text = "Name of expenditure") },
-            singleLine = true,
-            maxLines = 1,
-            modifier = Modifier.fillMaxWidth()
-        )
+    var titleError by remember { mutableStateOf(false) }
+    var amountError by remember { mutableStateOf(false) }
 
-        Spacer(modifier = Modifier.height(8.dp))
+    val context = LocalContext.current
 
-        OutlinedTextField(
-            value = amount,
-            onValueChange = { amount = it },
-            label = { Text("Total price") },
-            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = androidx.compose.ui.text.input.KeyboardType.Number),
-            singleLine = true,
-            maxLines = 1,
-            modifier = Modifier.fillMaxWidth()
-        )
+    Box(modifier = modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+        ) {
+            OutlinedTextField(
+                value = title,
+                onValueChange = {
+                    title = it
+                    titleError = false
+                },
+                label = { Text(text = "Name of expenditure") },
+                singleLine = true,
+                maxLines = 1,
+                isError = titleError,
+                supportingText = {
+                    if (titleError) Text("Title cannot be empty", color = MaterialTheme.colorScheme.error)
+                },
+                modifier = Modifier.fillMaxWidth()
+            )
 
-        Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
-        Button(
+            OutlinedTextField(
+                value = amount,
+                onValueChange = {
+                    amount = it
+                    amountError = false
+                },
+                label = { Text("Total price") },
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = androidx.compose.ui.text.input.KeyboardType.Number),
+                singleLine = true,
+                maxLines = 1,
+                isError = amountError,
+                supportingText = {
+                    if (amountError) Text("Amount must be a valid number", color = MaterialTheme.colorScheme.error)
+                },
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Button(
+                onClick = {
+                    if (expenses.isNotEmpty()) {
+                        val lastExpense = expenses.last()
+                        val formattedAmount = NumberFormat.getNumberInstance(Locale("in", "ID")).format(lastExpense.amount)
+                        val message = "Baru saja mencatat pengeluaran: ${lastExpense.title}, sebesar Rp $formattedAmount pada ${lastExpense.date}"
+                        shareData(context, message)
+                    }
+                },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Share")
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            LazyColumn {
+                items(expenses.size) { index ->
+                    val expense = expenses[index]
+                    val formattedAmount = NumberFormat.getNumberInstance(Locale("in", "ID")).format(expense.amount)
+                    Text("${index + 1}. ${expense.title}: Rp $formattedAmount (${expense.date})")
+                }
+            }
+        }
+
+        // FAB Add Button di kanan bawah
+        FloatingActionButton(
             onClick = {
                 val amountValue = amount.toDoubleOrNull()
                 val currentDate = SimpleDateFormat("dd MMM yyyy", Locale.getDefault()).format(Date())
 
-                if (title.isNotBlank() && amountValue != null) {
-                    expenses.add(Expense(title, amountValue, currentDate))
+                titleError = title.isBlank()
+                amountError = amountValue == null
 
+                if (!titleError && !amountError) {
+                    expenses.add(Expense(title, amountValue!!, currentDate))
                     title = ""
                     amount = ""
                 }
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(16.dp),
+            containerColor = MaterialTheme.colorScheme.primary
         ) {
-            Text("Add")
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        LazyColumn {
-            items(expenses.size) { index ->
-                val expense = expenses[index]
-                val formattedAmount = NumberFormat.getNumberInstance(Locale("in", "ID")).format(expense.amount)
-                Text("${index + 1}. ${expense.title}: Rp $formattedAmount (${expense.date})")
-            }
+            Icon(Icons.Default.Add, contentDescription = "Add", tint = MaterialTheme.colorScheme.onPrimary)
         }
     }
 }
